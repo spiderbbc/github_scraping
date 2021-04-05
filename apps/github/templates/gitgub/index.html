@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	{% if context %}
+		Github User {{context.vcard_names.username}}
+	{% else %}
+    	Github User 
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h3>Scraping Github User</h3>
+				<form action="." method="post" class="order-form">
+					{% csrf_token %}
+			        {{ form.as_p }}
+			        <p><input type="submit" value="Enviar"></p>
+			        {% csrf_token %}
+			    </form>
+			</div>
+		</div>
+		{% if context %}
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped">
+				  <thead>
+				    <tr>
+				      <th scope="col">Profile Image</th>
+				      <th scope="col">fullname</th>
+				      <th scope="col">username</th>
+				      <th scope="col">followers</th>
+				      <th scope="col">following</th>
+				      <th scope="col">stars</th>
+				      <th scope="col">Repositories</th>
+				      <th scope="col">Projects</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <th scope="row">
+				      	<a href="https://github.com/{{context.vcard_names.username}}" target="_blank">
+				      		<img src="{{context.profile_image}}" width="50" height="50">
+				      	</a>
+				      </th>
+				      <td>
+				      	<p>{{context.vcard_names.fullname}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.vcard_names.username}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.profile_bio.followers}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.profile_bio.following}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.profile_bio.stars}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.nav_body.Repositories}}</p>
+				      </td>
+				      <td>
+				      	<p>{{context.nav_body.Projects}}</p>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+{% endblock %}
